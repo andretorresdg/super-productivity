@@ -2,7 +2,7 @@
 
 > **Status:** Maintained
 >
-> **Last verified:** 2026-11-01
+> **Last verified:** 2026-11-23
 
 The widget displays up to 20 tasks from the app's last snapshot of either the
 Today view or one selected active project and lets the user toggle completion.
@@ -22,8 +22,11 @@ widget whose selected project is deleted, archived, or hidden falls back to
 Today. The stored selection is retained, so making an archived or hidden
 project available again restores it.
 
-Tapping a project widget's header or a row opens that project's task list in
-the app. Today widgets keep opening the app's default view.
+Tapping a widget's header or a row opens its list in the app: the project, or
+Today. A Today widget opens Today through the `com.super-productivity.app://today`
+URL, like the launcher shortcut, so it does not depend on the configured start
+page. A pending quick add's checkbox opens the same list, where the app imports
+the task.
 
 Project widgets list open tasks: the project list followed by the backlog, up
 to the 20-row limit. A task checked on the widget stays listed, checked, for

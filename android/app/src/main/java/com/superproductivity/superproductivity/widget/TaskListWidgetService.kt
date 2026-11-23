@@ -110,27 +110,26 @@ private class TaskListRemoteViewsFactory(
         }
 
         // Checkbox toggles to the opposite of the DISPLAYED state; anywhere else
-        // on the row opens the app. A pending quick add has no task to toggle
-        // yet, so its checkbox opens the app too, which imports it.
+        // on the row opens the widget's list in the app (its project, or Today).
+        // A pending quick add has no task to toggle yet, so its checkbox opens
+        // the list too, and the app imports the task there.
+        val openList = Intent().apply {
+            putExtra(TaskListWidgetProvider.EXTRA_OPEN_APP, true)
+            projectIdToOpen?.let {
+                putExtra(TaskListWidgetProvider.EXTRA_OPEN_PROJECT_ID, it)
+            }
+        }
         rv.setOnClickFillInIntent(
             R.id.widget_done_checkbox,
             if (task.isPending) {
-                Intent().putExtra(TaskListWidgetProvider.EXTRA_OPEN_APP, true)
+                openList
             } else {
                 Intent()
                     .putExtra(TaskListWidgetProvider.EXTRA_TASK_ID, task.id)
                     .putExtra(TaskListWidgetProvider.EXTRA_SET_DONE, !task.isDone)
             }
         )
-        rv.setOnClickFillInIntent(
-            R.id.widget_task_row,
-            Intent().apply {
-                putExtra(TaskListWidgetProvider.EXTRA_OPEN_APP, true)
-                projectIdToOpen?.let {
-                    putExtra(TaskListWidgetProvider.EXTRA_OPEN_PROJECT_ID, it)
-                }
-            }
-        )
+        rv.setOnClickFillInIntent(R.id.widget_task_row, openList)
 
         return rv
     }
